@@ -72,5 +72,22 @@ router.delete('/:id', (req, res) => {
 })
 
 // PUT - /api/posts/:id - update()
+router.put('/:id', (req, res) => {
+  const postData = req.body;
+  const id = req.params.id;
+
+  if (!id) {
+    res.status(404).json({ message: "The post with the specified ID does not exist." })
+  } else if (!postData.title || !postData.contents) {
+    res.status(400).json({ errorMessage: "Please provide title and contents for the post." });
+  } else {
+    Posts.update(id, postData).then(post => {
+      res.status(200).json(post);
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "The posts information could not be retrieved." });
+    });
+  }
+})
 
 module.exports = router;
