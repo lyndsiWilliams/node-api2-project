@@ -41,7 +41,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const id = req.params.id;
 
-  if (!req.params.id) {
+  if (!id) {
     res.status(404).json({ message: "The post with the specified ID does not exist." })
   } else {
     Posts.findById(id).then(post => {
@@ -56,6 +56,20 @@ router.get('/:id', (req, res) => {
 // GET - /api/posts/:id/comments - findCommentById()
 
 // DELETE - /api/posts/:id - remove()
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+
+  if (!id) {
+    res.status(404).json({ message: "The post with the specified ID does not exist." })
+  } else {
+    Posts.remove(id).then(removed => {
+      res.status(200).json(removed);
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "The posts information could not be retrieved." });
+    });
+  }
+})
 
 // PUT - /api/posts/:id - update()
 
