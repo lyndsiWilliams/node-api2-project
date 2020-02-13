@@ -26,6 +26,21 @@ router.post('/', (req, res) => {
 })
 
 // POST - /api/posts/:id/comments - insertComment()
+router.post('/:id/comments', (req, res) => {
+  const postData = req.body;
+  const id = req.params.id;
+  const commentData = { ...req.body, post_id: id };
+
+  if (!id) {
+    res.status(404).json({ message: "The post with the specified ID does not exist." })
+  } else if (!postData.text) {
+    res.status(400).json({ errorMessage: "Please provide text for the comment." });
+  } else {
+    Posts.insertComment(commentData).then(comment => {
+      res.status(201).json(comment);
+    }).catch();
+  }
+})
 
 // GET - /api/posts - find()
 router.get('/', (req, res) => {
