@@ -11,12 +11,11 @@ server.use('/api', apiRouter);
 
 server.get("/", (req, res) => {
   res.send(`
-    <h2>Posts and Comments</h>
-    <p>Welcome to Posts and Comments</p>
+    Welcome to Posts and Comments
   `);
 });
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 server.listen(port, () => {
   console.log(`\n*** Server running on http://localhost:${port} ***\n`);
 });
